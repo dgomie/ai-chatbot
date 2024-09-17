@@ -23,6 +23,10 @@ app.post('/api/generateChat', async (req, res) => {
   const { chatHistory, message } = req.body;
 
   async function generateAIresponse(history, message) {
+    console.log("history", history)
+    // if (Array.isArray(history) && history.length === 0) {
+    //   history = [{ role: 'user', parts: [{ text: "I want you to be a certified physical therapist that treats injuries conservatively." }] }];
+    // }
     try {
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
       const chat = model.startChat({history})
