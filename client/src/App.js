@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, Box, TextField, Button } from '@mui/material';
 
+
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -13,17 +14,21 @@ function App() {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (input.trim()) {
-      setMessages([...messages, { text: input, sender: 'user' }]);
+      setMessages([...messages, { role: 'user', parts: [{ text: input }] }]);
       setInput('');
       // Simulate AI response
       setTimeout(() => {
         setMessages((prevMessages) => [
           ...prevMessages,
-          { text: 'AI response', sender: 'ai' },
+          { role: 'ai', parts: [{ text: 'AI response' }] },
         ]);
       }, 1000);
     }
   };
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -54,18 +59,18 @@ function App() {
             <Box 
               key={index} 
               display="flex" 
-              justifyContent={message.sender === 'user' ? 'flex-end' : 'flex-start'} 
+              justifyContent={message.role === 'user' ? 'flex-end' : 'flex-start'} 
               mb={1}
             >
               <Typography 
                 variant="body1" 
                 component="div" 
-                bgcolor={message.sender === 'user' ? 'blue' : 'lightgrey'} 
-                color={message.sender === 'user' ? 'white' : 'black'} 
+                bgcolor={message.role === 'user' ? 'blue' : 'lightgrey'} 
+                color={message.role === 'user' ? 'white' : 'black'} 
                 p={1} 
                 borderRadius={2}
               >
-                {message.text}
+                {message.parts && message.parts[0] && message.parts[0].text}
               </Typography>
             </Box>
           ))}
