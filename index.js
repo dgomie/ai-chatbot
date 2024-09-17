@@ -20,14 +20,14 @@ app.get('*', (req, res) => {
 
 app.post('/api/generateChat', async (req, res) => {
   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-  const { chatHistory } = req.body;
+  const { chatHistory, message } = req.body;
 
-  async function generateAIresponse(history) {
+  async function generateAIresponse(history, message) {
     try {
       const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
       const chat = model.startChat({history})
 
-      let result = await chat.sendMessage("What is the average temperature in my area this time of year?");
+      let result = await chat.sendMessage(message);
       
       const response = await result.response;
       const text = await response.text();
@@ -39,7 +39,7 @@ app.post('/api/generateChat', async (req, res) => {
     }
   }
 
-  const aiResponse = await generateAIresponse(chatHistory);
+  const aiResponse = await generateAIresponse(chatHistory, message);
   if (aiResponse) {
     res.json({ response: aiResponse });
   } else {

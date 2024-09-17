@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, Box, TextField, Button } from '@mui/material';
-
+import axios from 'axios';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -11,18 +11,28 @@ function App() {
     setInput(event.target.value);
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (input.trim()) {
-      setMessages([...messages, { role: 'user', parts: [{ text: input }] }]);
+      const newMessage = { role: 'user', parts: [{ text: input }] };
+      setMessages([...messages, newMessage]);
       setInput('');
-      // Simulate AI response
-      setTimeout(() => {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { role: 'ai', parts: [{ text: 'AI response' }] },
-        ]);
-      }, 1000);
+
+      try {
+        const response = await axios.post('/api/generateChat', {
+          chatHistory: messages,
+          message: input,
+        });
+
+        if (response.data && response.data.response) {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { role: 'model', parts: [{ text: response.data.response }] },
+          ]);
+        }
+      } catch (error) {
+        console.error('Error generating AI response:', error);
+      }
     }
   };
 
