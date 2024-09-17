@@ -16,7 +16,7 @@ function App() {
     event.preventDefault();
     if (input.trim()) {
       const newMessage = { role: 'user', parts: [{ text: input }] };
-      setMessages([...messages, newMessage]);
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
       setInput('');
 
       try {
@@ -37,10 +37,6 @@ function App() {
       }
     }
   };
-
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -73,6 +69,7 @@ function App() {
               display="flex" 
               justifyContent={message.role === 'user' ? 'flex-end' : 'flex-start'} 
               mb={1}
+              width="100%"
             >
               <Typography 
                 variant="body1" 
@@ -81,6 +78,12 @@ function App() {
                 color={message.role === 'user' ? 'white' : 'black'} 
                 p={1} 
                 borderRadius={2}
+                style={{ 
+                  wordWrap: 'break-word', 
+                  wordBreak: 'break-word', 
+                  whiteSpace: 'pre-wrap', 
+                  maxWidth: '80%' 
+                }}
                 dangerouslySetInnerHTML={{ __html: message.parts && message.parts[0] && message.parts[0].text }}
               />
             </Box>
