@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, Box, TextField, Button } from '@mui/material';
 import axios from 'axios';
+import { marked } from 'marked';
 
 function App() {
   const [messages, setMessages] = useState([]);
@@ -25,9 +26,10 @@ function App() {
         });
 
         if (response.data && response.data.response) {
+          const htmlResponse = marked(response.data.response);
           setMessages((prevMessages) => [
             ...prevMessages,
-            { role: 'model', parts: [{ text: response.data.response }] },
+            { role: 'model', parts: [{ text: htmlResponse }] },
           ]);
         }
       } catch (error) {
@@ -79,9 +81,8 @@ function App() {
                 color={message.role === 'user' ? 'white' : 'black'} 
                 p={1} 
                 borderRadius={2}
-              >
-                {message.parts && message.parts[0] && message.parts[0].text}
-              </Typography>
+                dangerouslySetInnerHTML={{ __html: message.parts && message.parts[0] && message.parts[0].text }}
+              />
             </Box>
           ))}
           <div ref={messagesEndRef} />
