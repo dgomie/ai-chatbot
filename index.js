@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 // API route
 app.post('/api/generateChat', async (req, res) => {
