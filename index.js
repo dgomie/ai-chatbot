@@ -10,7 +10,12 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build/static')));
+
+// Serve the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 
 // API route
 app.post('/api/generateChat', async (req, res) => {
@@ -39,11 +44,6 @@ app.post('/api/generateChat', async (req, res) => {
   } else {
     res.status(500).json({ error: 'Failed to generate AI response' });
   }
-});
-
-// Catchall handler: For any request that doesn't match API routes, serve the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
 app.listen(PORT, () => {
