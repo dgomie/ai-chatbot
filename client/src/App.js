@@ -20,7 +20,7 @@ function App() {
       setInput('');
 
       try {
-        const response = await axios.post('/api/generateChat', {
+        const response = await axios.post('https://ai-chatbot-lime-ten.vercel.app/api/generateChat', {
           chatHistory: messages,
           message: input,
         });
