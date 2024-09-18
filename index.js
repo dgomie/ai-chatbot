@@ -11,10 +11,10 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 // Catch-all handler to serve the React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 // API route
