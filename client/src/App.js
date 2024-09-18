@@ -2,10 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, Box, TextField, Button } from '@mui/material';
 import axios from 'axios';
 import { marked } from 'marked';
+import BouncingDotsLoader from './BouncingDotsLoader';
+import "./styles.css";
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
   const handleInputChange = (event) => {
@@ -18,6 +21,7 @@ function App() {
       const newMessage = { role: 'user', parts: [{ text: input }] };
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setInput('');
+      setIsTyping(true);
 
       try {
         const response = await axios.post('/api/generateChat', {
@@ -34,6 +38,8 @@ function App() {
         }
       } catch (error) {
         console.error('Error generating AI response:', error);
+      } finally {
+        setIsTyping(false);
       }
     }
   };
@@ -88,6 +94,11 @@ function App() {
               />
             </Box>
           ))}
+          {isTyping && (
+            <Box display="flex" justifyContent="flex-start" mb={1} width="100%">          
+               <BouncingDotsLoader/>
+            </Box>
+          )}
           <div ref={messagesEndRef} />
         </Box>
         <form onSubmit={handleFormSubmit} style={{ width: '100%' }}>
