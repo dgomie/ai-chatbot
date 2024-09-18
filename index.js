@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
