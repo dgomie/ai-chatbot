@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-
+require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -10,12 +10,7 @@ const PORT = process.env.PORT || 3001;
 app.use(bodyParser.json());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build/static')));
-
-// Serve the React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build/index.html'));
-});
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // API route
 app.post('/api/generateChat', async (req, res) => {
@@ -44,6 +39,11 @@ app.post('/api/generateChat', async (req, res) => {
   } else {
     res.status(500).json({ error: 'Failed to generate AI response' });
   }
+});
+
+// Catch-all handler to serve the React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
 app.listen(PORT, () => {
