@@ -20,7 +20,7 @@ function App() {
       setInput('');
 
       try {
-        const response = await axios.post('https://ai-chatbot-snowy-delta.vercel.app/api/generateChat', {
+        const response = await axios.post('/api/generateChat', {
           chatHistory: messages,
           message: input,
         });
