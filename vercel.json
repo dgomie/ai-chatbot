@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "projects": [
+      {
+        "src": "apps/client/package.json",
+        "use": "@vercel/static-build",
+        "config": {
+          "distDir": "./client/build"
+        }
+      },
+      {
+        "src": "apps/api/index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "/api/index.js"
+      }
+    ]
+  }
+  
