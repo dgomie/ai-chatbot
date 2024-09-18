@@ -5,6 +5,7 @@
 
   ##### Table of Contents  
   [Description](#description)  
+  [Deployed App](#deployed-app)   
   [Installation](#installation)  
   [Usage](#usage)  
   [Questions](#questions)  
@@ -12,6 +13,11 @@
 
   ## Description  
   An AI chatbot built using React and Express to test Gemini capabilities and token limitations.
+
+  ## Deployed App  
+  Visit https://ai-chatbot-nl47.onrender.com/
+
+  *Note: App is currently on a free tier and may take up to 50 seconds to spin up*
 
   ## Installation  
   Install dependencies by navigating to root folder and running the following commands
