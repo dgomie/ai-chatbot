@@ -28,7 +28,7 @@
  npm i
  ```
   
-  Create .env file and add an API_KEY ariable with your Google Gemini API key.
+  Create .env file in the root folder and add an API_KEY variable with your Google Gemini API key.
   
   ```
   API_KEY="YourApiKeyHere"
